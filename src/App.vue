@@ -1,47 +1,33 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <main class="max-w-6xl mx-auto">
+    <IntroSection />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <StorySection sectionId="norway-rise" title="Norway’s Rise">
+      <p>[MultiLineChart]</p>
+    </StorySection>
 
-  <main>
-    <TheWelcome />
+    <StorySection sectionId="regional-dynamics" title="Regional Dynamics">
+      <p>[ChoroplethMap, BarChart]</p>
+    </StorySection>
+
+    <StorySection sectionId="export-machine" title="Export Machine">
+      <p>[SankeyChart, StackedBarChart, BubbleMap]</p>
+    </StorySection>
+
+    <StorySection sectionId="global-comparison" title="Global Comparison">
+      <p>[Butterfly & Dumbbell Chart, SlopeChart]</p>
+    </StorySection>
+
+    <StorySection sectionId="future-outlook" title="Future Outlook">
+      <p>[Line + Donut Chart]</p>
+    </StorySection>
+
+    <AboutSection />
   </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<script setup>
+import IntroSection from './components/UI/IntroSection.vue';
+import StorySection from './components/UI/StorySection.vue';
+import AboutSection from './components/UI/AboutSection.vue';
+</script>
