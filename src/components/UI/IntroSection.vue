@@ -1,6 +1,6 @@
 <template>
     <section id="intro" class="p-8">
-      <h1>Norway’s Energy Story</h1>
+      <h1>Norge Oil & Gas Insights</h1>
       <p>Exploring Norway’s oil & gas evolution through interactive visualizations.</p>
       <p><strong>Data Sources:</strong> Norwegian Petroleum Directorate, SODIR</p>
     </section>
