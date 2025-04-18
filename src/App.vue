@@ -4,6 +4,7 @@
 
     <StorySection sectionId="norway-rise" title="Norway’s Rise">
       <p>[MultiLineChart]</p>
+      <LineChart />
     </StorySection>
 
     <StorySection sectionId="regional-dynamics" title="Regional Dynamics">
@@ -27,7 +28,8 @@
 </template>
 
 <script setup>
-import IntroSection from './components/UI/IntroSection.vue';
-import StorySection from './components/UI/StorySection.vue';
-import AboutSection from './components/UI/AboutSection.vue';
+import IntroSection from './components/UI/IntroSection.vue'
+import StorySection from './components/UI/StorySection.vue'
+import AboutSection from './components/UI/AboutSection.vue'
+import LineChart from './components/charts/LineChart.vue'
 </script>
