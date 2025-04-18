@@ -30,6 +30,7 @@ df = df.rename(columns={
 print("- Cleaning data...")
 df = df[["year", "oil", "gas", "condensate", "ngl"]].dropna(how="all")
 df = df.astype({"year": int, "oil": float, "gas": float, "condensate": float, "ngl": float})
+df = df[:-1] # Remove last row (current year)
 
 os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 df.to_csv(OUTPUT_PATH, index=False)
