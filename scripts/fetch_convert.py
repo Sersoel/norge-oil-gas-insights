@@ -2,9 +2,12 @@ import pandas as pd
 import requests
 from io import BytesIO
 import os
+import json
+from datetime import datetime
 
 URL = "https://www.norskpetroleum.no/generator/csv.php?lang=en&from=query&dataSource=production&title=Annual+production&groupBy=year&orderBy=1&orderByAscending=1"
 OUTPUT_PATH = "public/assets/data/annual_historical_production.csv"
+OUTPUT_META = "public/assets/data/metadata.json"
 
 print("- Downloading Excel from NorskPetroleum...")
 res = requests.get(URL)
@@ -36,3 +39,11 @@ os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 df.to_csv(OUTPUT_PATH, index=False)
 
 print(f"- Saved CSV to: {OUTPUT_PATH}")
+
+metadata = {
+    "source": URL,
+    "fetched_at": datetime.utcnow().isoformat(timespec='seconds') + "Z"
+}
+with open(OUTPUT_META, "w") as f:
+    json.dump(metadata, f, indent=2)
+print(f"- Saved metadata to: {OUTPUT_META}")
