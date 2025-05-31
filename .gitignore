@@ -32,3 +32,4 @@ coverage
 
 # Auto-generated production data
 /public/assets/data/annual_historical_production.csv
+/public/assets/data/metadata.json
