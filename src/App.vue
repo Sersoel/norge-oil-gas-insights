@@ -23,6 +23,7 @@
       <p>[Line + Donut Chart]</p>
     </StorySection>
 
+    <Footer />
     <AboutSection />
   </main>
 </template>
@@ -31,5 +32,6 @@
 import IntroSection from './components/UI/IntroSection.vue'
 import StorySection from './components/UI/StorySection.vue'
 import AboutSection from './components/UI/AboutSection.vue'
+import Footer from './components/UI/Footer.vue'
 import LineChart from './components/charts/LineChart.vue'
 </script>
