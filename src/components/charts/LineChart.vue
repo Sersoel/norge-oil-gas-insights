@@ -13,11 +13,14 @@ const chartContainer = ref(null)
 
 onMounted(async () => {
   const margin = { top: 30, right: 40, bottom: 50, left: 60 }
-  const width = 800 - margin.left - margin.right
-  const height = 400 - margin.top - margin.bottom
+  const containerWidth = 800
+  const containerHeight = 400
+  const width = containerWidth - margin.left - margin.right
+  const height = containerHeight - margin.top - margin.bottom
 
   const data = await d3.csv('/assets/data/annual_historical_production.csv', d3.autoType)
   const keys = ['oil', 'gas', 'condensate', 'ngl']
+  const color = d3.scaleOrdinal().domain(keys).range(d3.schemeCategory10)
 
   const x = d3
     .scaleLinear()
@@ -30,20 +33,15 @@ onMounted(async () => {
     .nice()
     .range([height, 0])
 
-  const color = d3.scaleOrdinal().domain(keys).range(d3.schemeCategory10)
-
   const svgEl = d3
     .select(svg.value)
-    .attr('viewBox', [
-      0,
-      0,
-      width + margin.left + margin.right,
-      height + margin.top + margin.bottom,
-    ])
+    .attr('viewBox', [0, 0, containerWidth, containerHeight])
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`)
 
-  const g = svgEl.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
-
-  g.append('g')
+  // Axes
+  svgEl
+    .append('g')
     .call(d3.axisLeft(y).ticks(6))
     .append('text')
     .attr('x', -margin.left)
@@ -52,70 +50,166 @@ onMounted(async () => {
     .attr('text-anchor', 'start')
     .text('Million Sm³ oil equivalents')
 
-  g.append('g')
+  svgEl
+    .append('g')
     .attr('transform', `translate(0,${height})`)
     .call(d3.axisBottom(x).tickFormat(d3.format('d')))
 
+  // Line generator
   const line = d3
     .line()
     .x((d) => x(d.year))
     .y((d) => y(d.value))
 
+  // Tooltip
   const tooltip = d3
     .select(chartContainer.value)
     .append('div')
     .attr('class', 'tooltip')
     .style('position', 'absolute')
-    .style('pointer-events', 'none')
     .style('opacity', 0)
-    .style('background', 'white')
-    .style('border', '1px solid #ccc')
-    .style('padding', '4px 8px')
-    .style('font-size', '12px')
+    .style('pointer-events', 'none')
+    .style('background', '#414141')
+    .style('color', '#fff')
+    .style('border', '1px solid #fff')
+    .style('padding', '6px 10px')
+    .style('font-size', '8px')
     .style('border-radius', '4px')
+    .style('z-index', 10)
 
+  function showTooltip(event, key, d) {
+    const xPos = x(d.year) + margin.left
+    const yPos = y(d.value) + margin.top
+
+    tooltip
+      .html(
+        `
+        <div style="font-weight: 600; color: ${color(key)};">${key.toUpperCase()}</div>
+        <div><strong>Year:</strong> ${d.year}</div>
+        <div><strong>Value:</strong> ${d.value.toFixed(2)} <span style="color: #fff;">MSm³</span></div>
+      `,
+      )
+      .style('left', `${xPos - tooltip.node().offsetWidth / 2}px`)
+      .style('top', `${yPos - tooltip.node().offsetHeight - 8}px`)
+      .transition()
+      .duration(800)
+      .style('opacity', 1)
+  }
+
+  function hideTooltip() {
+    tooltip.transition().duration(800).style('opacity', 0)
+  }
+
+  // Draw lines
   keys.forEach((key) => {
     const lineData = data.map((d) => ({ year: d.year, value: d[key] }))
-    g.append('path')
+    const lastPoint = lineData.at(-1)
+
+    const group = svgEl.append('g').attr('class', 'line-group').attr('data-key', key)
+
+    // Line path
+    group
+      .append('path')
       .datum(lineData)
+      .attr('class', 'line-path')
       .attr('fill', 'none')
       .attr('stroke', color(key))
       .attr('stroke-width', 2)
       .attr('d', line)
 
-    g.selectAll(`circle-${key}`)
+    // Dots
+    group
+      .selectAll('.line-dot')
       .data(lineData)
-      .enter()
-      .append('circle')
+      .join('circle')
+      .attr('class', 'line-dot')
+      .attr('r', 3)
       .attr('cx', (d) => x(d.year))
       .attr('cy', (d) => y(d.value))
-      .attr('r', 3)
       .attr('fill', color(key))
-      .on('mouseover', (event, d) => {
-        // Calculate absolute pixel position of the data point
-        const pointX = x(d.year) + margin.left
-        const pointY = y(d.value) + margin.top
-
-        tooltip.transition().duration(100).style('opacity', 1)
-
-        tooltip
-          .html(
-            `
-          <div style="font-weight: 600; color: ${color(key)};">${key.toUpperCase()}</div>
-          <div><span style="font-weight: 500;">Year:</span> ${d.year}</div>
-          <div><span style="font-weight: 500;">Value:</span> ${d.value.toFixed(2)} <span style="color: #666;">Million Sm³</span></div>
-        `,
-          )
-          .style('left', `${pointX - tooltip.node().offsetWidth / 2}px`) // center horizontally
-          .style('top', `${pointY - tooltip.node().offsetHeight - 8}px`) // directly above with small gap
-      })
-      .on('mousemove', function (event) {
+      .on('mouseover', (event, d) => showTooltip(event, key, d))
+      .on('mousemove', (event) => {
         tooltip.style('left', `${event.pageX + 5}px`).style('top', `${event.pageY - 28}px`)
       })
-      .on('mouseout', () => {
-        tooltip.transition().duration(200).style('opacity', 0)
-      })
+      .on('mouseout', hideTooltip)
+
+    // Label
+    group
+      .append('text')
+      .attr('class', 'line-label')
+      .attr('x', x(lastPoint.year) + 6)
+      .attr('y', y(lastPoint.value))
+      .attr('dy', '0.35em')
+      .attr('fill', color(key))
+      .attr('font-size', 12)
+      .attr('font-weight', 'bold')
+      .text(key.toUpperCase())
   })
+
+  // Group hover interactivity
+  svgEl
+    .selectAll('.line-group')
+    .on('mouseover', function () {
+      const activeKey = d3.select(this).attr('data-key')
+
+      svgEl.selectAll('.line-group').each(function () {
+        const key = d3.select(this).attr('data-key')
+        const group = d3.select(this)
+        const isActive = key === activeKey
+
+        group
+          .select('.line-path')
+          .attr('stroke', isActive ? color(key) : '#bbb')
+          .attr('stroke-opacity', isActive ? 1 : 0.4)
+
+        group.selectAll('.line-dot').attr('fill', isActive ? color(key) : '#bbb')
+
+        group.select('.line-label').attr('fill', isActive ? color(key) : '#aaa')
+      })
+    })
+    .on('mouseout', function () {
+      svgEl.selectAll('.line-group').each(function () {
+        const key = d3.select(this).attr('data-key')
+        const group = d3.select(this)
+
+        group.select('.line-path').attr('stroke', color(key)).attr('stroke-opacity', 1)
+
+        group.selectAll('.line-dot').attr('fill', color(key))
+        group.select('.line-label').attr('fill', color(key))
+      })
+    })
+
+  // Interactivity
+  svgEl
+    .selectAll('.line-group')
+    .on('mouseover', function () {
+      const activeKey = d3.select(this).attr('data-key')
+
+      svgEl.selectAll('.line-group').each(function () {
+        const key = d3.select(this).attr('data-key')
+        const group = d3.select(this)
+        const isActive = key === activeKey
+
+        group
+          .select('.line-path')
+          .attr('stroke', isActive ? color(key) : '#bbb')
+          .attr('stroke-opacity', isActive ? 1 : 0.5)
+
+        group.selectAll('.line-dot').attr('fill', isActive ? color(key) : '#bbb')
+
+        group.select('.line-label').attr('fill', isActive ? color(key) : '#aaa')
+      })
+    })
+    .on('mouseout', () => {
+      svgEl.selectAll('.line-group').each(function () {
+        const key = d3.select(this).attr('data-key')
+        const group = d3.select(this)
+
+        group.select('.line-path').attr('stroke', color(key)).attr('stroke-opacity', 1)
+        group.selectAll('.line-dot').attr('fill', color(key))
+        group.select('.line-label').attr('fill', color(key))
+      })
+    })
 })
 </script>
 
@@ -126,6 +220,7 @@ svg {
 
 .tooltip {
   z-index: 20;
+  position: absolute;
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid #ddd;
   padding: 8px 12px;
@@ -136,5 +231,9 @@ svg {
   color: #333;
   pointer-events: none;
   transition: opacity 0.15s ease;
+}
+
+.line-label {
+  pointer-events: none;
 }
 </style>
