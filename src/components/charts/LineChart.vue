@@ -18,7 +18,10 @@ onMounted(async () => {
   const width = containerWidth - margin.left - margin.right
   const height = containerHeight - margin.top - margin.bottom
 
-  const data = await d3.csv('/assets/data/annual_historical_production.csv', d3.autoType)
+  const data = await d3.csv(
+    new URL('/assets/data/annual_historical_production.csv', import.meta.url),
+    d3.autoType,
+  )
   const keys = ['oil', 'gas', 'condensate', 'ngl']
   const color = d3.scaleOrdinal().domain(keys).range(d3.schemeCategory10)
 
