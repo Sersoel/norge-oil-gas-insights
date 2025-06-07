@@ -3,8 +3,18 @@
     <IntroSection />
 
     <StorySection sectionId="norway-rise" title="Norway’s Rise">
+      <p>-</p>
       <p>[MultiLineChart]</p>
+      <p class="text-sm text-gray-600 mb-4">
+        This chart shows Norway’s annual production of Oil, Gas, Condensate, and NGL from 1971 to
+        the latest finalized year, measured in million Sm³ oil equivalents. Oil production peaked in
+        the early 2000s and has gradually declined, while gas production surpassed oil around 2010
+        and continues to rise. Although NGL and condensate make up a smaller portion of the total,
+        their output has remained relatively stable. Overall, the chart reflects a significant shift
+        in Norway’s energy profile, with gas emerging as the country’s leading hydrocarbon export.
+      </p>
       <LineChart />
+      <p>-</p>
     </StorySection>
 
     <StorySection sectionId="regional-dynamics" title="Regional Dynamics">
