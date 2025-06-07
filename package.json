@@ -1,11 +1,12 @@
 {
   "name": "norge-oil-gas-insights",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "fetch:data": "python scripts/fetch_convert.py",
+    "dev": "npm run fetch:data && vite",
+    "build": "npm run fetch:data && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
