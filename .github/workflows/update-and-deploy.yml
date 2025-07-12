@@ -31,12 +31,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python packages
-        run: pip install pandas openpyxl requests
+        run: pip install pandas openpyxl requests geopandas
 
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Fetch data + build site
+      - name: Fetch + sync data
+        run: |
+          npm run fetch:data
+          npm run sync:data
+
+      - name: Build site
         run: npm run build
 
       - name: Deploy to GitHub Pages
