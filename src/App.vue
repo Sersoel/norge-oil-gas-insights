@@ -1,8 +1,12 @@
 <template>
-  <main class="max-w-6xl mx-auto">
+  <main class="max-w-screen-xl mx-auto px-8">
     <IntroSection />
 
-    <StorySection sectionId="norway-rise" title="Norway’s Rise">
+    <StorySection
+      sectionId="norway-rise"
+      title="Norway’s Rise"
+      class="max-w-screen-xl mx-auto px-8"
+    >
       <p>-</p>
       <p>[MultiLineChart]</p>
       <p class="text-sm text-gray-600 mb-4">
@@ -19,6 +23,30 @@
 
     <StorySection sectionId="regional-dynamics" title="Regional Dynamics">
       <p>[ChoroplethMap, BarChart]</p>
+      <p class="text-gray-600 mb-4 w-full">
+        At the close of 2024, Norway’s offshore story is still all about the North Sea: it delivers
+        close to nine-tenths of the nation’s total output, with the Norwegian Sea playing a
+        supporting role and the Barents Sea barely moving the needle. Looking down the decades,
+        overall volumes are off their early-2000s oil peak, yet they’ve held up because gas -now the
+        biggest slice of the pie- has risen as oil wanes. In short, production is steady but
+        gas-heavy, and it’s still overwhelmingly a North Sea game.
+      </p>
+      <div
+        style="display: flex; flex-direction: row; gap: 32px; align-items: flex-start; width: 100vw"
+      >
+        <div style="flex: 0 0 400px; min-width: 400px">
+          <div style="flex: 0"></div>
+          <ChoroplethMap
+            v-if="geojson"
+            :geojson="geojson"
+            :productionTotals="productionTotals"
+            @update:selectedSeas="selectedSeas = $event"
+          />
+        </div>
+        <div style="flex: 2">
+          <BarChartRegion :selectedSeas="selectedSeas" />
+        </div>
+      </div>
     </StorySection>
 
     <StorySection sectionId="export-machine" title="Export Machine">
@@ -43,5 +71,47 @@ import IntroSection from './components/UI/IntroSection.vue'
 import StorySection from './components/UI/StorySection.vue'
 import AboutSection from './components/UI/AboutSection.vue'
 import Footer from './components/UI/Footer.vue'
+
 import LineChart from './components/charts/LineChart.vue'
+import ChoroplethMap from './components/charts/ChoroplethMap.vue'
+import BarChartRegion from './components/charts/BarChartRegion.vue'
+
+import geojsonUrl from '/data/processed/sea_production.geojson?url'
+import productionPerSea from '/data/processed/production_per_sea.csv?raw'
+
+import { ref, onMounted } from 'vue'
+import * as d3 from 'd3'
+
+const selectedSeas = ref([])
+
+const geojson = ref(null)
+
+const productionTotals = ref({})
+
+onMounted(async () => {
+  const res = await fetch(geojsonUrl)
+  geojson.value = await res.json()
+})
+
+onMounted(() => {
+  const csvData = d3.csvParse(productionPerSea)
+  const totals = {}
+
+  csvData.forEach((row) => {
+    const sea = row.area
+    const total = +row.total_oil_equivalents || 0
+
+    totals[sea] = (totals[sea] || 0) + total
+  })
+
+  productionTotals.value = totals
+})
 </script>
+
+<style scoped>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+}
+</style>
