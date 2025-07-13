@@ -52,7 +52,16 @@
     <StorySection sectionId="export-machine" title="Export Machine">
       <p>-</p>
       <p>[SankeyChart, StackedBarChart, BubbleMap]</p>
-      <p>INFO-TEXT</p>
+      <p>
+        From these charts, we can see that Norway’s petroleum exports have grown steadily over the
+        decades, with noticeable peaks in recent years driven mostly by natural gas. In 2024, oil
+        remains Norway’s biggest export by volume, going mainly to European neighbors like the
+        Netherlands and the UK, while condensate and NGL exports are smaller but still significant.
+        Globally, Norway’s oil production is modest compared to giants like the U.S. and Saudi
+        Arabia, placing it among the lower producers on the 2023 list. Altogether, the graphs show
+        how Norway’s petroleum industry plays a steady but smaller role in the global market, while
+        remaining crucial for European energy supplies.
+      </p>
       <StackedBarChart />
       <div
         style="display: flex; flex-direction: row; gap: 32px; align-items: flex-start; width: 100vw"
