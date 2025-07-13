@@ -154,6 +154,6 @@ function drawLabels(group, projection, colorScale) {
 
 <style scoped>
 #choropleth-map-container {
-  height: 800px;
+  height: 400px;
 }
 </style>

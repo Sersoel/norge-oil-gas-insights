@@ -138,4 +138,10 @@ body {
   margin: 0;
   font-family: system-ui, sans-serif;
 }
+
+svg {
+  height: 400px;
+  width: 75%;
+  overflow: visible;
+}
 </style>
