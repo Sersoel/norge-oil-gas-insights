@@ -1,5 +1,5 @@
 <template>
-  <main class="max-w-screen-xl mx-auto px-8">
+  <main class="info max-w-screen-xl mx-auto px-8">
     <IntroSection />
 
     <StorySection
@@ -50,7 +50,20 @@
     </StorySection>
 
     <StorySection sectionId="export-machine" title="Export Machine">
+      <p>-</p>
       <p>[SankeyChart, StackedBarChart, BubbleMap]</p>
+      <p>INFO-TEXT</p>
+      <StackedBarChart />
+      <div
+        style="display: flex; flex-direction: row; gap: 32px; align-items: flex-start; width: 100vw"
+      >
+        <div style="flex: 0 0 400px; min-width: 400px">
+          <SankeyChart />
+        </div>
+        <div style="flex: 2">
+          <LollipopChart />
+        </div>
+      </div>
     </StorySection>
 
     <StorySection sectionId="global-comparison" title="Global Comparison">
@@ -78,6 +91,10 @@ import BarChartRegion from './components/charts/BarChartRegion.vue'
 
 import geojsonUrl from '/data/processed/sea_production.geojson?url'
 import productionPerSea from '/data/processed/production_per_sea.csv?raw'
+
+import StackedBarChart from './components/charts/StackedBarChart.vue'
+import SankeyChart from './components/charts/SankeyChart.vue'
+import LollipopChart from './components/charts/LollipopChart.vue'
 
 import { ref, onMounted } from 'vue'
 import * as d3 from 'd3'
@@ -113,5 +130,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: system-ui, sans-serif;
+}
+info {
+  width: 50%;
+  height: 500px;
+  overflow: visible;
 }
 </style>
