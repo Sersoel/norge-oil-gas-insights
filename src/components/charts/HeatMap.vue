@@ -121,19 +121,16 @@ function renderHeatmap(data) {
 
   const y = d3.scaleBand().domain(fields).range([0, height]).padding(0.05)
 
-  // X-axis
+  //  X-axis (years)
   svg
     .append('g')
+    .attr('transform', `translate(0, ${height})`)
+    .call(d3.axisBottom(x).tickValues(years).tickFormat(d3.format('d')))
     .selectAll('text')
-    .data(years)
-    .join('text')
-    .attr('x', (d) => x(d) + x.bandwidth() / 2)
-    .attr('y', height + 25)
-    .attr('text-anchor', 'middle')
-    .attr('font-size', '10px')
-    .text((d) => d)
+    .attr('transform', 'rotate(-45)')
+    .style('text-anchor', 'end')
 
-  // Y-axis
+  //  Y-axis (fields) - leave as is, or replace with axisLeft
   svg
     .append('g')
     .selectAll('text')
@@ -235,7 +232,7 @@ function renderLegend(data) {
       .append('text')
       .attr('x', legendWidth + 10)
       .attr('y', i * (legendHeight + 10) + legendHeight / 2 + 4)
-      .text(`${field} (max: ${maxValuePerField[field].toFixed(1)})`)
+      .text(`${field}`)
       .style('font-size', '12px')
       .style('alignment-baseline', 'middle')
   })
