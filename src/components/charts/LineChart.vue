@@ -220,7 +220,7 @@ onMounted(async () => {
 <style scoped>
 svg {
   height: 500px;
-  width: 75%;
+  max-width: 95%;
   overflow: visible;
 }
 
