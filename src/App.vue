@@ -52,7 +52,7 @@
 
     <StorySection sectionId="export-machine" title="Export Machine">
       <p>-</p>
-      <p>[SankeyChart, StackedBarChart, BubbleMap]</p>
+      <p>[SankeyChart, StackedBarChart, LollipopChart]</p>
       <p>
         From these charts, we can see that Norway’s petroleum exports have grown steadily over the
         decades, with noticeable peaks in recent years driven mostly by natural gas. In 2024, oil

@@ -138,6 +138,31 @@ function renderChart(data: Array<any>) {
     .attr('stroke-width', 2.5)
     .attr('d', line)
 
+  // Add invisible circles for tooltip on line points
+  g.selectAll('.total-exports-point')
+    .data(data)
+    .join('circle')
+    .attr('class', 'total-exports-point')
+    .attr('cx', (d) => x(d.Year)! + x.bandwidth() / 2)
+    .attr('cy', (d) => y(d.TotalExportsOfGoods))
+    .attr('r', 10)
+    .style('fill', 'transparent')
+    .style('pointer-events', 'all')
+    .on('mousemove', (event, d) => {
+      tooltip
+        .style('opacity', 1)
+        .html(
+          `
+        <strong>${LINE_LABEL}</strong><br>
+        Year: ${d.Year}<br>
+        Total: ${fmtInt(d.TotalExportsOfGoods)}
+      `,
+        )
+        .style('left', `${event.pageX + 15}px`)
+        .style('top', `${event.pageY - 28}px`)
+    })
+    .on('mouseleave', () => tooltip.style('opacity', 0))
+
   /* Legend */
   const legend = g
     .append('g')
@@ -196,7 +221,7 @@ function renderChart(data: Array<any>) {
 
 <style scoped>
 svg {
-  width: 80%;
+  width: 100%;
   height: 500px;
   overflow: visible;
 }
