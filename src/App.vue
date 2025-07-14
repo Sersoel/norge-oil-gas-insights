@@ -49,6 +49,7 @@
           <BarChartRegion :selectedSeas="selectedSeas" />
         </div>
       </div>
+      <HeatMap />
     </StorySection>
 
     <StorySection sectionId="export-machine" title="Export Machine">
@@ -121,6 +122,7 @@ import LineChart from './components/charts/LineChart.vue'
 import zoomableStackedBarChart from './components/charts/zoomableStackedBarChart.vue'
 import ChoroplethMap from './components/charts/ChoroplethMap.vue'
 import BarChartRegion from './components/charts/BarChartRegion.vue'
+import HeatMap from './components/charts/HeatMap.vue'
 
 import geojsonUrl from '/data/processed/sea_production.geojson?url'
 import productionPerSea from '/data/processed/production_per_sea.csv?raw'
