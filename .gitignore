@@ -39,9 +39,9 @@ coverage
 *.qmd
 
 # Auto-generated production data
-data/processed/*.json
-data/processed/*.geojson
-data/processed/*.csv
+# data/processed/*.json
+# data/processed/*.geojson
+# data/processed/*.csv
 /public/assets/data/*.json
 /public/assets/data/*.geojson
 /public/assets/data/*.csv
