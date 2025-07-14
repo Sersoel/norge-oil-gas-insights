@@ -8,7 +8,7 @@
       class="max-w-screen-xl mx-auto px-8"
     >
       <p>-</p>
-      <p>[MultiLineChart]</p>
+      <p>[MultiLineChart, StackedBarChart]</p>
       <p class="text-sm text-gray-600 mb-4">
         This chart shows Norway’s annual production of Oil, Gas, Condensate, and NGL from 1971 to
         the latest finalized year, measured in million Sm³ oil equivalents. Oil production peaked in
@@ -18,6 +18,7 @@
         in Norway’s energy profile, with gas emerging as the country’s leading hydrocarbon export.
       </p>
       <LineChart />
+      <zoomableStackedBarChart />
       <p>-</p>
     </StorySection>
 
@@ -95,6 +96,7 @@ import AboutSection from './components/UI/AboutSection.vue'
 import Footer from './components/UI/Footer.vue'
 
 import LineChart from './components/charts/LineChart.vue'
+import zoomableStackedBarChart from './components/charts/zoomableStackedBarChart.vue'
 import ChoroplethMap from './components/charts/ChoroplethMap.vue'
 import BarChartRegion from './components/charts/BarChartRegion.vue'
 
@@ -140,9 +142,13 @@ body {
   padding: 0;
   font-family: system-ui, sans-serif;
 }
-info {
-  width: 50%;
+.info {
+  max-width: 80%;
   height: 500px;
+  margin: 0 auto; /* horizontal centering */
+  /* display: flex; */
+  justify-content: center; /* horizontal alignment of children */
+  align-items: center; /* vertical alignment of children */
   overflow: visible;
 }
 </style>
