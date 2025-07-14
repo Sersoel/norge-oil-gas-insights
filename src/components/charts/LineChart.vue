@@ -19,11 +19,12 @@ onMounted(async () => {
   const height = containerHeight - margin.top - margin.bottom
 
   const data = await d3.csv(
-    new URL('/assets/data/annual_historical_production.csv', import.meta.url),
+    new URL('/data/processed/annual_historical_production.csv', import.meta.url),
     d3.autoType,
   )
+
   const keys = ['oil', 'gas', 'condensate', 'ngl']
-  const color = d3.scaleOrdinal().domain(keys).range(d3.schemeCategory10)
+  const color = d3.scaleOrdinal().domain(keys).range(['#333333', '#00bcd4', '#795548', '#9c27b0'])
 
   const x = d3
     .scaleLinear()
@@ -72,8 +73,8 @@ onMounted(async () => {
     .style('position', 'absolute')
     .style('opacity', 0)
     .style('pointer-events', 'none')
-    .style('background', '#414141')
-    .style('color', '#fff')
+    .style('background', '#f7f7f7')
+    .style('color', '#414141')
     .style('border', '1px solid #fff')
     .style('padding', '6px 10px')
     .style('font-size', '8px')
@@ -89,7 +90,7 @@ onMounted(async () => {
         `
         <div style="font-weight: 600; color: ${color(key)};">${key.toUpperCase()}</div>
         <div><strong>Year:</strong> ${d.year}</div>
-        <div><strong>Value:</strong> ${d.value.toFixed(2)} <span style="color: #fff;">MSm³</span></div>
+        <div><strong>Value:</strong> ${d.value.toFixed(2)} <span style="color: #414141;">MSm³</span></div>
       `,
       )
       .style('left', `${xPos - tooltip.node().offsetWidth / 2}px`)
@@ -218,6 +219,8 @@ onMounted(async () => {
 
 <style scoped>
 svg {
+  height: 500px;
+  max-width: 95%;
   overflow: visible;
 }
 

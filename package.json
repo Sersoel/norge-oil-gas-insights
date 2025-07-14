@@ -1,12 +1,15 @@
 {
   "name": "norge-oil-gas-insights",
-  "version": "0.2.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "fetch:data": "python scripts/fetch_convert.py",
-    "dev": "npm run fetch:data && vite",
-    "build": "npm run fetch:data && vite build",
+    "fetch:data": "python scripts/fetch_convert.py && python scripts/convert_iho_to_geojson.py",
+    "sync:data": "cp data/processed/*.csv public/assets/data/ && cp data/processed/*.json public/assets/data/ && cp data/processed/*.geojson public/assets/data/",
+    "dev": "vite",
+    "dev:full": "npm run fetch:data && npm run sync:data && vite",
+    "build": "vite build",
+    "build:all": "npm run fetch:data && npm run sync:data && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
