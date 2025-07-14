@@ -8,7 +8,7 @@
       class="max-w-screen-xl mx-auto px-8"
     >
       <p>-</p>
-      <p>[MultiLineChart, StackedBarChart]</p>
+      <!-- <p>[MultiLineChart, StackedBarChart]</p> -->
       <p class="text-sm text-gray-600 mb-4">
         This chart shows Norway’s annual production of Oil, Gas, Condensate, and NGL from 1971 to
         the latest finalized year, measured in million Sm³ oil equivalents. Oil production peaked in
@@ -19,11 +19,12 @@
       </p>
       <LineChart />
       <zoomableStackedBarChart />
-      <p>-</p>
     </StorySection>
 
     <StorySection sectionId="regional-dynamics" title="Regional Dynamics">
-      <p>[ChoroplethMap, BarChart]</p>
+      <!-- <p>[ChoroplethMap, BarChart]</p> -->
+      <p>-</p>
+      <h3>Production per seas</h3>
       <p class="text-gray-600 mb-4 w-full">
         At the close of 2024, Norway’s offshore story is still all about the North Sea: it delivers
         close to nine-tenths of the nation’s total output, with the Norwegian Sea playing a
@@ -52,7 +53,7 @@
 
     <StorySection sectionId="export-machine" title="Export Machine">
       <p>-</p>
-      <p>[SankeyChart, StackedBarChart, LollipopChart]</p>
+      <!-- <p>[SankeyChart, StackedBarChart, LollipopChart]</p> -->
       <p>
         From these charts, we can see that Norway’s petroleum exports have grown steadily over the
         decades, with noticeable peaks in recent years driven mostly by natural gas. In 2024, oil
@@ -76,12 +77,33 @@
       </div>
     </StorySection>
 
-    <StorySection sectionId="global-comparison" title="Global Comparison">
+    <!-- <StorySection sectionId="global-comparison" title="Global Comparison">
       <p>[Butterfly & Dumbbell Chart, SlopeChart]</p>
-    </StorySection>
+    </StorySection> -->
 
     <StorySection sectionId="future-outlook" title="Future Outlook">
-      <p>[Line + Donut Chart]</p>
+      <p>-</p>
+      <!-- <p>[PieChart]</p> -->
+      <div
+        style="display: flex; flex-direction: row; gap: 32px; align-items: flex-start; width: 100vw"
+      >
+        <div style="flex: 0 0 400px; min-width: 400px">
+          <PieChartRemainingReserves />
+        </div>
+        <div style="flex: 2">
+          <h2>Remaining reserves</h2>
+          <p style="max-width: 58%">
+            Looking at Norway’s remaining reserves as of the end of 2024, it’s clear the North Sea
+            still rules the game, holding about 70% of the country’s total oil and gas resources.
+            The Norwegian Sea comes next, with around 18% of the reserves, and the Barents Sea
+            trails behind at roughly 11%. Oil makes up the biggest chunk in the North Sea, but
+            there’s also a solid amount of gas there. The Barents and Norwegian Seas, while smaller
+            players, still carry meaningful volumes, especially gas in the Norwegian Sea. All in
+            all, Norway’s future energy story stays strongly tied to the North Sea, but there’s
+            potential for more development up north if markets and technology make it worthwhile.
+          </p>
+        </div>
+      </div>
     </StorySection>
 
     <Footer />
@@ -106,6 +128,8 @@ import productionPerSea from '/data/processed/production_per_sea.csv?raw'
 import StackedBarChart from './components/charts/StackedBarChart.vue'
 import SankeyChart from './components/charts/SankeyChart.vue'
 import LollipopChart from './components/charts/LollipopChart.vue'
+
+import PieChartRemainingReserves from './components/charts/PieChartRemainingReserves.vue'
 
 import { ref, onMounted } from 'vue'
 import * as d3 from 'd3'
