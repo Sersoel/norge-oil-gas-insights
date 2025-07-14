@@ -49,7 +49,7 @@ function drawChart(selectedSeas) {
     })
   })
 
-  const svgWidth = 700
+  const svgWidth = 450
   const svgHeight = 350
   const margin = { top: 20, right: 20, bottom: 30, left: 80 }
   const innerWidth = svgWidth - margin.left - margin.right
@@ -141,7 +141,7 @@ body {
 
 svg {
   height: 400px;
-  width: 75%;
+  max-width: 95%;
   overflow: visible;
 }
 </style>
