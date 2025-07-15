@@ -1,10 +1,10 @@
 {
   "name": "norge-oil-gas-insights",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "fetch:data": "python scripts/fetch_convert.py && python scripts/convert_iho_to_geojson.py",
+    "fetch:data": "python scripts/fetch_convert.py && python scripts/build_choropleth_geojson.py",
     "sync:data": "cp data/processed/*.csv public/assets/data/ && cp data/processed/*.json public/assets/data/ && cp data/processed/*.geojson public/assets/data/",
     "dev": "vite",
     "dev:full": "npm run fetch:data && npm run sync:data && vite",
