@@ -38,10 +38,13 @@ coverage
 *.cpg
 *.qmd
 
-# Auto-generated production data
-data/processed/*.json
-data/processed/*.geojson
-data/processed/*.csv
+# Ignore auto-generated downloadable data
 /public/assets/data/*.json
 /public/assets/data/*.geojson
 /public/assets/data/*.csv
+
+# Ignore auto-generated production data
+data/processed/sea_production.geojson
+data/processed/annual_historical_production.csv
+data/processed/production_per_sea.csv
+data/processed/metadata.json
